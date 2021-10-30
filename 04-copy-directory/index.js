@@ -1,8 +1,19 @@
 const fs = require('fs');
 const path = require('path');
+const { stdout } = process;
 
 const oldDirectory = path.join(__dirname, 'files')
 const newDirectory = path.join(__dirname, 'files-copy')
+
+// создаем новую директорию
+createDirectory(newDirectory).then((path) => {
+    stdout.write(`\n*** Новая директория создана: ${path}\n`);
+    // если директория создана - выбираем файлы из нее
+    selectFiles();
+
+}).catch((error) => {
+    console.log(`Problem creating directory: ${error.message}`)
+});
 
 function createDirectory(newDirectory) {
     const directory = path.normalize(newDirectory);
@@ -28,19 +39,7 @@ function createDirectory(newDirectory) {
     });
 }
 
-// const directoryPath = `${__dirname}/test`;
-
-createDirectory(newDirectory).then((path) => {
-    console.log(`Successfully created directory: '${path}'`);
-    selectFiles();
-
-
-
-
-}).catch((error) => {
-    console.log(`Problem creating directory: ${error.message}`)
-});
-
+// выбираем файлы из указанной директории
 function selectFiles() {
     fs.readdir(oldDirectory, (err, files) => {
         if (err) {
@@ -51,15 +50,12 @@ function selectFiles() {
                 let curFile = path.join(oldDirectory, file);
 
                 fs.stat(curFile, function (err, stats) {
+                    // нам нужны только файлы
                     if (stats.isFile()) {
-
+                        // копируем файл в новую директорию
                         const newFile = path.join(newDirectory, file);
                         copyFile(curFile, newFile);
 
-                        // const ext = path.extname(curFile);
-                        // const name = path.basename(curFile, ext);
-                        // const size = stats["size"];
-                        // console.log(`${name} - ${ext.substring(1)} - ${size}kb`);
                     }
                 })
             });
@@ -67,23 +63,14 @@ function selectFiles() {
     })
 }
 
-// function copyFile(source, target, cb) {
 function copyFile(source, target) {
     let cbCalled = false;
 
-    let rStream = fs.createReadStream(source, 'utf-8');
-    rStream.on("error", function (err) {
-        console.log(err);
-        //done(err);
-    });
-    let wStream = fs.createWriteStream(target, 'utf-8');
-    wStream.on("error", function (err) {
-        console.log(err);
-        // done(err);
-    });
-    wStream.on("close", function (ex) {
-        done();
-    });
-    rStream.pipe(wStream);
+    fs.createReadStream(source).pipe(fs.createWriteStream(target));
+    stdout.write(`\n*** Файл скопирован:          ${target}\n`);
+
 }
+
+
+
 
