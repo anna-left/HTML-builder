@@ -1,6 +1,3 @@
-//в задании ошибка: скрипт собирающий в единый файл содержимое папки css.
-//есть папка styles
-
 const fs = require('fs');
 const path = require('path');
 
@@ -10,14 +7,11 @@ const bundleFile = path.join(projFolder, 'bundle.css');
 const output = fs.createWriteStream(bundleFile);
 const { stdout } = process;
 
-let arr = [];
-
 //создаем новый файл ('w' - открыть файл для записи; при этом существующие данные затираются)
 fs.open(bundleFile, 'w', (err) => {
     if (err) throw err;
     stdout.write(`\n*** Создан файл               ${bundleFile}\n`);
 });
-
 
 //читаем исходный каталог
 fs.readdir(cssFolder, (err, files) => {
