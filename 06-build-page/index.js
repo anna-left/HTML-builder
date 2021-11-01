@@ -11,10 +11,6 @@ const components = path.join(__dirname, 'components')
 const indexFile = path.join(projFolder, 'index.html');
 const templateFile = path.join(__dirname, 'template.html');
 
-const header = path.join(components, 'header.html');
-const articles = path.join(components, 'articles.html');
-const footer = path.join(components, 'footer.html');
-
 // создаем новую директорию project-dist
 createDirectory(projFolder).then((path) => {
     stdout.write(`*** Новая директория создана: ${path}\n`);
@@ -22,7 +18,7 @@ createDirectory(projFolder).then((path) => {
     fs.open(styleFile, 'w', (err) => {
         if (err) throw err;
         stdout.write(`*** Создан файл               ${styleFile}\n`);
-
+        // добавить фрагменты
         appendToFile();
     });
 }).catch((err) => {
@@ -33,7 +29,7 @@ createDirectory(projFolder).then((path) => {
 // создаем новую директорию project-dist/assets
 createDirectory(newDirectoryAssets).then((path) => {
     stdout.write(`*** Новая директория создана: ${path}\n`);
-    // если директория создана - выбираем файлы из нее
+    // если директория создана - выбираем файлы
     selectFiles(oldDirectoryAssets, newDirectoryAssets);
 
 }).catch((error) => {
@@ -79,7 +75,6 @@ function copyFile(source, target) {
 
     fs.createReadStream(source).pipe(fs.createWriteStream(target));
     stdout.write(`*** Файл скопирован:          ${target}\n`);
-
 }
 
 function createDirectory(folder) {
@@ -141,6 +136,7 @@ fs.copyFile(templateFile, indexFile, (err) => {
     if (err) {
         throw err;
     } else {
+        // считываем файлы из папки components, сохраняем данные в массиве
         fs.readdir(components, (err, files) => {
             if (err) {
                 console.log(err);
@@ -157,16 +153,19 @@ fs.copyFile(templateFile, indexFile, (err) => {
                                     arr.push({ name: name, data: data });
                                     fs.readFile(indexFile, 'utf8', (err, dataIndex) => {
                                         if (err) throw err;
-
-                                        for (let i = 0; i < arr.length; i++) {
-                                            dataIndex = dataIndex.replace(`{{${arr[i].name}}}`, arr[i].data);
+                                        // Заменяем шаблонные теги в файле index.html на одноименные компоненты
+                                        if (arr.length) {
+                                            for (let i = 0; i < arr.length; i++) {
+                                                dataIndex = dataIndex.replace(`{{${arr[i].name}}}`, arr[i].data);
+                                                stdout.write(`*** Добавлен фрагмент ${arr[i].name} в файл index.html\n`);
+                                            }
+                                            arr = [];
+                                            // записываем итоговый файл
+                                            fs.writeFile(indexFile, dataIndex, 'utf8', function (err) {
+                                                if (err) return console.log(err);
+                                                stdout.write(`*** Записан файл              ${indexFile}\n`);
+                                            });
                                         }
-
-                                        fs.writeFile(indexFile, dataIndex, 'utf8', function (err) {
-                                            if (err) return console.log(err);
-
-                                            stdout.write(`*** Добавлен фрагмент в файл  ${indexFile}\n`);
-                                        });
                                     });
                                 });
                             }
