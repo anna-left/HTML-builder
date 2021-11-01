@@ -7,10 +7,10 @@ const projFolder = path.join(__dirname, 'project-dist')
 const styleFile = path.join(projFolder, 'style.css');
 const oldDirectoryAssets = path.join(__dirname, 'assets')
 const newDirectoryAssets = path.join(projFolder, 'assets')
-let arr = [];
 const components = path.join(__dirname, 'components')
 const indexFile = path.join(projFolder, 'index.html');
 const templateFile = path.join(__dirname, 'template.html');
+
 const header = path.join(components, 'header.html');
 const articles = path.join(components, 'articles.html');
 const footer = path.join(components, 'footer.html');
@@ -136,29 +136,44 @@ function appendToFile() {
 }
 
 // формируем файл index.html
-let nameHeader = path.basename(header, '.html');
-let nameArticles = path.basename(articles, '.html');
-let namefooter = path.basename(footer, '.html');
-
+let arr = [];
 fs.copyFile(templateFile, indexFile, (err) => {
-    if (err) throw err;
-    fs.readFile(header, 'utf8', function (err, dataHeader) {
-        if (err) throw err;
-        fs.readFile(articles, 'utf8', function (err, dataArticles) {
-            if (err) throw err;
-            fs.readFile(footer, 'utf8', function (err, dataFooter) {
-                if (err) throw err;
-                fs.readFile(indexFile, 'utf8', function (err, dataIndex) {
-                    if (err) throw err;
-                    dataIndex = dataIndex.replace(`{{${nameHeader}}}`, dataHeader);
-                    dataIndex = dataIndex.replace(`{{${nameArticles}}}`, dataArticles);
-                    dataIndex = dataIndex.replace(`{{${namefooter}}}`, dataFooter);
-                    fs.writeFile(indexFile, dataIndex, 'utf8', function (err) {
-                        if (err) return console.log(err);
-                        stdout.write(`*** Сформирован файл          ${indexFile}\n`);
-                    });
+    if (err) {
+        throw err;
+    } else {
+        fs.readdir(components, (err, files) => {
+            if (err) {
+                console.log(err);
+            } else {
+                files.forEach(file => {
+                    let curFile = path.join(components, file);
+                    fs.stat(curFile, function (err, stats) {
+                        if (stats.isFile()) {
+                            const ext = path.extname(curFile);
+                            const name = path.basename(curFile, ext);
+                            if (ext === '.html') {
+                                fs.readFile(curFile, 'utf8', (err, data) => {
+                                    if (err) throw err;
+                                    arr.push({ name: name, data: data });
+                                    fs.readFile(indexFile, 'utf8', (err, dataIndex) => {
+                                        if (err) throw err;
+
+                                        for (let i = 0; i < arr.length; i++) {
+                                            dataIndex = dataIndex.replace(`{{${arr[i].name}}}`, arr[i].data);
+                                        }
+
+                                        fs.writeFile(indexFile, dataIndex, 'utf8', function (err) {
+                                            if (err) return console.log(err);
+
+                                            stdout.write(`*** Добавлен фрагмент в файл  ${indexFile}\n`);
+                                        });
+                                    });
+                                });
+                            }
+                        }
+                    })
                 });
-            });
-        });
-    });
+            }
+        })
+    }
 });
