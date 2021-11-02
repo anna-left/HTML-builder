@@ -3,7 +3,7 @@ const path = require('path');
 
 const fileName = path.join(__dirname, 'text.txt')
 
-const stream = fs.createReadStream(fileName, 'utf-8');
+const stream = fs.ReadStream(fileName, 'utf-8');
 
 let data = '';
 

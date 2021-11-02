@@ -34,7 +34,7 @@ fs.readdir(cssFolder, (err, files) => {
                             // новые данные дописываем в конец файла
                             fs.appendFile(bundleFile, data, (err) => {
                                 if (err) throw err;
-                                stdout.write(`\n*** Добавлены данные из файла ${curFile}\n`);
+                                stdout.write(`*** Добавлены данные из файла ${curFile}\n`);
                             });
                         });
                     }

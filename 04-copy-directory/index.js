@@ -67,7 +67,7 @@ function copyFile(source, target) {
     let cbCalled = false;
 
     fs.createReadStream(source).pipe(fs.createWriteStream(target));
-    stdout.write(`\n*** Файл скопирован:          ${target}\n`);
+    stdout.write(`*** Файл скопирован:          ${target}\n`);
 
 }
 
