@@ -11,15 +11,16 @@
 ---
 
 ## Процесс выполнения:
-- Сделайте форка репозитория
+- Сделайте форк репозитория
 - Отправьте ссылку на репозиторий в crosscheck-submit
 - Клонируйте репозиторий
-- Выполните задания. ТЗ для каждого из них находится в файле README.md внутри папки задания. 
+- Выполните команду ```npm install``` для установки eslint и тайпингов node.js которые помогут вам при выполнении заданий
+- Выполните задания. ТЗ для каждого из них находится в файле README.md внутри папки задания
 - Запушьте решение в свой форк репозитория
 
 ## Crosscheck
  
-Ход выполнения проверки орисан в вики репозитория. Посте старта cross-check перейдите по [данной ссылке](https://github.com/EvgeniiMal/HTML-builder/wiki/HTML-builder-crosscheck) и следуйте инструкции на главной странице. 
+Ход выполнения проверки описан в вики репозитория. После старта cross-check перейдите по [данной ссылке](https://github.com/EvgeniiMal/HTML-builder/wiki/HTML-builder-crosscheck) и следуйте инструкции на главной странице. 
 
 ## Общие правила!!!:
 
@@ -33,6 +34,6 @@
 [01 Чтение файла с выводом содержимого в консоль](https://github.com/EvgeniiMal/HTML-builder/tree/main/01-read-file)  
 [02 Запись консольного ввода в файл](https://github.com/EvgeniiMal/HTML-builder/blob/main/02-write-file)  
 [03 Вывод информации о файлаx хранящихся в папке](https://github.com/EvgeniiMal/HTML-builder/blob/main/03-files-in-folder)  
-[04 Копирование папки](https://github.com/EvgeniiMal/HTML-builder/blob/main/04-copy-folder)  
+[04 Копирование папки](https://github.com/EvgeniiMal/HTML-builder/tree/main/04-copy-directory)  
 [05 Сборка css бандла](https://github.com/EvgeniiMal/HTML-builder/blob/main/05-merge-styles)  
 [06 Сборка HTML страницы из компонентов и стилей](https://github.com/EvgeniiMal/HTML-builder/tree/main/06-build-page)  

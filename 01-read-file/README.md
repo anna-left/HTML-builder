@@ -12,7 +12,7 @@
 ### Требования
 
 - [ ] Внутри папки ***01-read-file*** находятся 2 файла **index.js** и **text.txt**
-- [ ] При выполнении команды ```node 01-read-file``` в корневом каталоге репозитория в консоль выводится содержимое файла **text.txt**. 
+- [ ] При выполнении команды ```node 01-read-file``` в корневом каталоге репозитория в консоль выводится содержимое файла **text.txt**.
 - [ ] В коде не должны быть использованы синхронные методы чтения файла.
 - [ ] Чтение файла должно происходить с помощью **ReadStream**.
 
@@ -20,7 +20,7 @@
 ### Цели задания
 - Познакомиться с основами работы с файловой системой на платформе Node.Js
 - Изучить основы streams и events
-- Ознакомиться с модулем Path и научиться применять его для построения абсолютного пути к фалам.  
+- Ознакомиться с модулем Path и научиться применять его для построения абсолютного пути к файлам.  
 
 ### Описание  
 В данном задании от вас требуется написать небольшой скрипт, результатом работы которого будет вывод содержимого заранее подготовленного текстового файла в консоль. Для этого вы можете придерживаться данного порядка действий:  
@@ -50,18 +50,17 @@
 *Обратите внимание, что переводы документации на русский язык могут быть устаревшими и не содержать всех современных возможностей модулей. Однако, основные концепции описанные там работают и по сей день. Для получения актуальной информации всегда используйте официальную документацию!*
 - События:  
     - [Understanding Node.js Event-Driven Architecture (FreeCodeCamp)](https://www.freecodecamp.org/news/understanding-node-js-event-driven-architecture-223292fcbc2d/)
-    - [Event emitter (nodejsdev.ru)](https://nodejsdev/learn/the-node.js-event-emitter)  
+    - [Event emitter (nodejsdev.ru)](https://nodejsdev.ru/doc/event-emitter/)  
     - [Перевод документации Events (nodejsdev.ru)](https://nodejsdev.ru/api/events/)  
     - [События гайд (nodejsdev.ru)](https://nodejsdev.ru/guide/events/) 
 - Потоки:
     - [Stream](https://nodejs.org/api/stream.html)  
-    - [Stream перевод на русский](https://js-node.ru/site/article?id=41)
     - [fs.createReadStream](https://nodejs.org/api/fs.html#fs_fs_createreadstream_path_options)
     - [Потоки (nodejsdev.ru)](https://nodejsdev.ru/api/stream/)
     - [Pipe (nodejsdev.ru)](https://nodejsdev.ru/guide/pipe/)
 - Модуль Path:
     - [Path](https://nodejs.org/api/path.html)   
-    - [Path перевод на русский](https://nodejs.org/api/path.html#path_path)
+    - [Path перевод на русский](https://nodejsdev.ru/api/path/)
 - Process: 
     - [Process](https://nodejs.org/api/process.html)
     - [Process перевод на русский](https://nodejsdev.ru/api/process/)
