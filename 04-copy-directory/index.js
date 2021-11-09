@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const fsPromises = require('fs').promises;
 const { stdout } = process;
 
 const oldDirectory = path.join(__dirname, 'files')
@@ -8,8 +9,14 @@ const newDirectory = path.join(__dirname, 'files-copy')
 // создаем новую директорию
 createDirectory(newDirectory).then((path) => {
     stdout.write(`\n*** Новая директория создана: ${path}\n`);
-    // если директория создана - выбираем файлы из нее
-    selectFiles();
+
+    //удаляем старые файлы
+    fsPromises.readdir(newDirectory).then(existingFiles => {
+        existingFiles.forEach(existingFile => {
+            fsPromises.unlink(`${newDirectory}\\${existingFile}`);
+        });
+        // если директория создана - выбираем файлы из нее
+    }).then(selectFiles());
 
 }).catch((error) => {
     console.log(`Problem creating directory: ${error.message}`)
