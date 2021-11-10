@@ -10,7 +10,7 @@ stdout.write('\n*** Пожалуста, введите ваши данные:\n'
 let resText = '';
 stdin.on('data', data => {
     let curText = data.toString();
-    if (curText.toUpperCase() === 'EXIT\r\n') {
+    if (curText.trim().replace(/(^\s+|\s+$)/g, "").toUpperCase() === 'EXIT') {
         process.exit();
     } else {
         resText += curText;
