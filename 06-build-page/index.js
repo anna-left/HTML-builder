@@ -12,29 +12,36 @@ const indexFile = path.join(projFolder, 'index.html');
 const templateFile = path.join(__dirname, 'template.html');
 
 // создаем новую директорию project-dist
-createDirectory(projFolder).then((path) => {
-    stdout.write(`*** Новая директория создана: ${path}\n`);
-    //создаем новый файл style.css ('w' - открыть файл для записи; при этом существующие данные затираются)
-    fs.open(styleFile, 'w', (err) => {
-        if (err) throw err;
-        stdout.write(`*** Создан файл               ${styleFile}\n`);
+createDirectory(projFolder)
+    .then((path) => {
+        stdout.write(`*** Новая директория создана: ${path}\n`);
+        //создаем новый файл style.css ('w' - открыть файл для записи; при этом существующие данные затираются)
+        fs.open(styleFile, 'w', (err) => {
+            if (err) throw err;
+            stdout.write(`*** Создан файл               ${styleFile}\n`)
+        });
+    })
+    .then(
         // добавить фрагменты
-        appendToFile();
+        appendToFile()
+    )
+    .then(
+        // создаем новую директорию project-dist/assets
+        createDirectory(newDirectoryAssets).then((path) => {
+            stdout.write(`*** Новая директория создана: ${path}\n`);
+
+        }).catch((error) => {
+            console.log(`Problem creating directory: ${error.message}`)
+        }))
+    .then(
+        // если директория создана - выбираем файлы
+        selectFiles(oldDirectoryAssets, newDirectoryAssets)
+    )
+    .catch((err) => {
+        throw err;
+        console.log(`Problem creating directory: ${error.message}`)
     });
-}).catch((err) => {
-    throw err;
-    console.log(`Problem creating directory: ${error.message}`)
-});
 
-// создаем новую директорию project-dist/assets
-createDirectory(newDirectoryAssets).then((path) => {
-    stdout.write(`*** Новая директория создана: ${path}\n`);
-    // если директория создана - выбираем файлы
-    selectFiles(oldDirectoryAssets, newDirectoryAssets);
-
-}).catch((error) => {
-    console.log(`Problem creating directory: ${error.message}`)
-});
 
 // выбираем файлы из указанной директории
 function selectFiles(directory, newDirectory) {
